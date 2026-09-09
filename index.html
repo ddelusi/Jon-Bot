@@ -1,281 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JONATHAN // Private Bot</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBER / HUD Interface</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-  <!-- Custom Glowing Dot Cursor -->
+  <!-- Custom Cursor -->
   <div id="custom-cursor"></div>
 
-  <!-- Intro Loader -->
-  <div id="cyber-loader">
-    <div class="loader-box">
-      <div class="loader-hex">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-      <div class="terminal-text">
-        <span id="loader-status">STARTING UP...</span>
-        <div class="progress-bar"><div class="progress-fill"></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Background Layer -->
+  <!-- Background Layers -->
   <div class="bg-wrapper">
     <div class="particle-layer"></div>
     <div class="bg-horror-static"></div>
   </div>
-
-  <!-- CRT Scanlines -->
   <div class="crt-lines"></div>
 
-  <!-- Navigation -->
-  <nav class="hud-nav">
+  <!-- Loader -->
+  <div id="cyber-loader">
+    <div class="loader-box">
+      <div class="loader-hex">⬡</div>
+      <div class="terminal-text">INITIALIZING HUD SYSTEM...</div>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HUD Header/Nav -->
+  <header class="hud-nav">
     <div class="hud-logo">
       <div class="status-dot"></div>
-      <span>JONATHAN<small>v4.2</small></span>
+      <span>SYSTEM<small>v2.04</small></span>
     </div>
 
-    <div class="nav-tabs">
-      <button class="tab-btn active" onclick="openTab(event, 'overview')"><i class="fa-solid fa-house"></i> Overview</button>
-      <button class="tab-btn" onclick="openTab(event, 'damages')"><i class="fa-solid fa-gavel"></i> Damages System</button>
-      <button class="tab-btn" onclick="openTab(event, 'commands')"><i class="fa-solid fa-terminal"></i> Commands</button>
-      <button class="tab-btn" onclick="openTab(event, 'support')"><i class="fa-brands fa-discord"></i> Support</button>
-    </div>
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="overview">
+        <i class="fa-solid fa-border-all"></i> Overview
+      </button>
+      <button class="tab-btn" data-tab="commands">
+        <i class="fa-solid fa-terminal"></i> Commands
+      </button>
+      <button class="tab-btn" data-tab="support">
+        <i class="fa-solid fa-headset"></i> Support
+      </button>
+    </nav>
 
     <div class="hud-status-badge">
       <span class="pulse-ring"></span>
-      <span><i class="fa-solid fa-circle-check"></i> BOT ONLINE</span>
+      <span>ONLINE</span>
     </div>
-  </nav>
+  </header>
 
   <main class="container">
-
-    <!-- TAB 1: OVERVIEW -->
-    <div id="overview" class="tab-content active">
-      <header class="hero-hud">
-        <div class="badge-tag"><i class="fa-solid fa-crown"></i> PRIVATE DISCORD BOT</div>
-        <h1 class="hero-title">JONATHAN</h1>
-        <p class="subtitle">Custom security & server management bot built for private Discord servers.</p>
-      </header>
-
-      <div class="tab-layout">
-        <div class="tab-main-content">
-          <div class="overview-grid">
-            <div class="hud-card feature-card">
-              <div class="card-corner top-left"></div>
-              <div class="card-corner bottom-right"></div>
-              <i class="fa-solid fa-bolt card-icon"></i>
-              <h3>Fast Responses</h3>
-              <p>Optimized to catch and handle Discord events instantly without delays.</p>
-            </div>
-
-            <div class="hud-card feature-card">
-              <div class="card-corner top-left"></div>
-              <div class="card-corner bottom-right"></div>
-              <i class="fa-solid fa-shield-cat card-icon"></i>
-              <h3>Damages Metric</h3>
-              <p>Replaces basic warning systems with automatic penalty thresholds.</p>
-            </div>
-
-            <div class="hud-card feature-card">
-              <div class="card-corner top-left"></div>
-              <div class="card-corner bottom-right"></div>
-              <i class="fa-solid fa-sliders card-icon"></i>
-              <h3>Easy Controls</h3>
-              <p>Packed with simple commands for smooth daily admin work.</p>
-            </div>
-          </div>
-        </div>
-
-        <aside class="tab-side-media">
-          <div class="hud-card cat-card">
-            <div class="card-corner top-left"></div>
-            <div class="card-corner bottom-right"></div>
-            <div class="cat-image-wrapper">
-              <img src="47557b6b22690742b5dad865205dc3de.jpg" alt="White Kitten" class="cat-img" />
-            </div>
-            <span class="cat-caption"><i class="fa-solid fa-cat"></i> SYSTEM_COMPANION_01</span>
-          </div>
-        </aside>
-      </div>
+    <div class="hero-hud">
+      <span class="badge-tag">TERMINAL CONTROL</span>
+      <h1 class="hero-title">HUD INTERFACE</h1>
+      <p class="subtitle">System diagnostics and real-time interface operations.</p>
     </div>
 
-    <!-- TAB 2: DAMAGES SYSTEM -->
-    <div id="damages" class="tab-content">
-      <div class="tab-layout">
-        <div class="tab-main-content">
-          <section class="damages-section">
-            <div class="section-tag"><span>01</span> // PENALTY THRESHOLDS</div>
-            <p class="section-desc">Jonathan uses a custom infraction points system called Damages. Reaching specific damage numbers triggers automatic punishments.</p>
-
-            <div class="hud-grid">
-              <div class="hud-card">
-                <div class="card-corner top-left"></div>
-                <div class="card-corner bottom-right"></div>
-                <div class="card-header">
-                  <i class="fa-solid fa-volume-xmark"></i>
-                  <h3>AUTO-MUTE LEVEL</h3>
-                </div>
-                <div class="counter-display">3 <span>DAMAGES</span></div>
-                <div class="meter-bar"><div class="fill warning-fill"></div></div>
-                <p>Hitting 3 damages automatically mutes the member across text and voice channels.</p>
-              </div>
-
-              <div class="hud-card">
-                <div class="card-corner top-left"></div>
-                <div class="card-corner bottom-right"></div>
-                <div class="card-header">
-                  <i class="fa-solid fa-user-slash"></i>
-                  <h3>AUTO-BAN LEVEL</h3>
-                </div>
-                <div class="counter-display">25 <span>DAMAGES</span></div>
-                <div class="meter-bar"><div class="fill danger-fill"></div></div>
-                <p>Hitting 25 damages triggers an instant automatic ban and logs the incident.</p>
-              </div>
-            </div>
-          </section>
+    <!-- OVERVIEW TAB -->
+    <section id="overview" class="tab-content active">
+      <div class="overview-grid">
+        <div class="hud-card feature-card">
+          <div class="card-corner top-left"></div>
+          <div class="card-corner bottom-right"></div>
+          <i class="fa-solid fa-microchip card-icon"></i>
+          <h3>Core Diagnostics</h3>
+          <p>Real-time processing parameters and memory allocation monitoring.</p>
         </div>
 
-        <aside class="tab-side-media">
-          <div class="hud-card cat-card">
-            <div class="card-corner top-left"></div>
-            <div class="card-corner bottom-right"></div>
-            <div class="cat-image-wrapper">
-              <img src="cd6e087d14f4cc83df5643b6f6955482.jpg" alt="Beer Cat" class="cat-img" />
-            </div>
-            <span class="cat-caption"><i class="fa-solid fa-beer-mug-empty"></i> SYSTEM_COMPANION_02</span>
-          </div>
-        </aside>
-      </div>
-    </div>
-
-    <!-- TAB 3: COMMANDS -->
-    <div id="commands" class="tab-content">
-      <div class="tab-layout">
-        <div class="tab-main-content">
-          <section class="commands-section">
-            <div class="section-tag"><span>02</span> // COMMANDS LIST</div>
-
-            <div class="terminal-container">
-              <div class="terminal-header">
-                <span class="dot cyan"></span>
-                <span class="dot grey"></span>
-                <span class="dot white"></span>
-                <span class="terminal-title">available_commands.sys</span>
-              </div>
-              <div class="command-grid">
-                <div class="cmd-row"><code class="cmd">/addemote</code><span class="desc">Add custom emotes via URL or attachment.</span></div>
-                <div class="cmd-row"><code class="cmd">/ban</code><span class="desc">Manually ban a user.</span></div>
-                <div class="cmd-row"><code class="cmd">/checkdamage</code><span class="desc">Check current damages and user logs.</span></div>
-                <div class="cmd-row"><code class="cmd">/clearwarnings</code><span class="desc">Clear warning history for a user.</span></div>
-                <div class="cmd-row"><code class="cmd">/damage</code><span class="desc">Manually give damages to a user.</span></div>
-                <div class="cmd-row"><code class="cmd">/embed</code><span class="desc">Create custom embed messages.</span></div>
-                <div class="cmd-row"><code class="cmd">/giveaway</code><span class="desc">Start automated giveaways.</span></div>
-                <div class="cmd-row"><code class="cmd">/mute</code><span class="desc">Mute someone in the server.</span></div>
-                <div class="cmd-row"><code class="cmd">/removedamage</code><span class="desc">Remove damages from a user.</span></div>
-                <div class="cmd-row"><code class="cmd">/say</code><span class="desc">Make the bot say a message.</span></div>
-                <div class="cmd-row"><code class="cmd">/setlogchannel</code><span class="desc">Set where mod logs are sent.</span></div>
-                <div class="cmd-row"><code class="cmd">/setprefix</code><span class="desc">Change the text command prefix.</span></div>
-                <div class="cmd-row"><code class="cmd">/speak</code><span class="desc">Play text-to-speech audio in voice chat.</span></div>
-                <div class="cmd-row"><code class="cmd">/unban</code><span class="desc">Unban a user.</span></div>
-                <div class="cmd-row"><code class="cmd">/unmute</code><span class="desc">Unmute a user.</span></div>
-                <div class="cmd-row"><code class="cmd">/warn</code><span class="desc">Issue a regular warning.</span></div>
-                <div class="cmd-row"><code class="cmd">/warnings</code><span class="desc">View full warning log.</span></div>
-              </div>
-            </div>
-          </section>
+        <div class="hud-card feature-card">
+          <div class="card-corner top-left"></div>
+          <div class="card-corner bottom-right"></div>
+          <i class="fa-solid fa-shield-halved card-icon"></i>
+          <h3>Security Protocols</h3>
+          <p>Automated threat containment and active integrity validation.</p>
         </div>
 
-        <aside class="tab-side-media">
-          <div class="hud-card cat-card">
-            <div class="card-corner top-left"></div>
-            <div class="card-corner bottom-right"></div>
-            <div class="cat-image-wrapper">
-              <img src="18b3141b565855b626069f16e064f51b.jpg" alt="Tabby Kitten" class="cat-img" />
-            </div>
-            <span class="cat-caption"><i class="fa-solid fa-terminal"></i> SYSTEM_COMPANION_03</span>
-          </div>
-        </aside>
-      </div>
-    </div>
-
-    <!-- TAB 4: SUPPORT SERVER -->
-    <div id="support" class="tab-content">
-      <div class="tab-layout">
-        <div class="tab-main-content">
-          <section class="support-section">
-            <div class="section-tag"><span>03</span> // COMMUNITY & SUPPORT</div>
-
-            <div class="hud-card support-card">
-              <div class="card-corner top-left"></div>
-              <div class="card-corner bottom-right"></div>
-
-              <div class="support-header">
-                <i class="fa-brands fa-discord support-icon"></i>
-                <h2>JOIN THE SUPPORT SERVER</h2>
-              </div>
-
-              <p class="support-desc">Need assistance with Jonathan Bot, want to report an issue, or suggest a new feature? Join our Discord server to connect with support.</p>
-
-              <div class="support-btn-wrapper">
-                <a href="https://discord.gg/Q3RKjJyMWU" target="_blank" rel="noopener noreferrer" class="join-btn">
-                  <i class="fa-brands fa-discord"></i> JOIN SERVER
-                </a>
-              </div>
-            </div>
-          </section>
+        <div class="hud-card feature-card">
+          <div class="card-corner top-left"></div>
+          <div class="card-corner bottom-right"></div>
+          <i class="fa-solid fa-network-wired card-icon"></i>
+          <h3>Network Relay</h3>
+          <p>Low-latency telemetry and distributed server synchronization.</p>
         </div>
-
-        <aside class="tab-side-media">
-          <div class="hud-card cat-card">
-            <div class="card-corner top-left"></div>
-            <div class="card-corner bottom-right"></div>
-            <div class="cat-image-wrapper">
-              <img src="47557b6b22690742b5dad865205dc3de.jpg" alt="White Kitten" class="cat-img" />
-            </div>
-            <span class="cat-caption"><i class="fa-solid fa-headset"></i> SYSTEM_COMPANION_04</span>
-          </div>
-        </aside>
       </div>
-    </div>
+    </section>
+
+    <!-- COMMANDS TAB -->
+    <section id="commands" class="tab-content">
+      <div class="terminal-container">
+        <div class="terminal-header">
+          <span class="dot cyan"></span>
+          <span class="dot grey"></span>
+          <span class="dot white"></span>
+          <span class="terminal-title">system_commands.exe</span>
+        </div>
+        <div class="command-grid">
+          <div class="cmd-row">
+            <span class="cmd">/status</span>
+            <span class="desc">Retrieves current operational status and latency.</span>
+          </div>
+          <div class="cmd-row">
+            <span class="cmd">/diagnose</span>
+            <span class="desc">Executes a full diagnostic routine on connected nodes.</span>
+          </div>
+          <div class="cmd-row">
+            <span class="cmd">/purge</span>
+            <span class="desc">Clears cached runtime telemetry data.</span>
+          </div>
+          <div class="cmd-row">
+            <span class="cmd">/reboot</span>
+            <span class="desc">Restarts subsystem modules safely.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT TAB -->
+    <section id="support" class="tab-content">
+      <div class="hud-card support-card">
+        <div class="card-corner top-left"></div>
+        <div class="card-corner bottom-right"></div>
+        <div class="support-header">
+          <i class="fa-solid fa-headset support-icon"></i>
+          <h2>System Support</h2>
+        </div>
+        <p class="support-desc">Need technical assistance or connection setup guidance? Access community channels for support.</p>
+        <div class="support-btn-wrapper">
+          <a href="#" class="join-btn">
+            <i class="fa-brands fa-discord"></i> Connect to Relay
+          </a>
+        </div>
+      </div>
+    </section>
 
     <!-- BOTTOM STATUS SECTION -->
     <section class="bottom-status-section">
-      <div class="status-card hud-card">
+      <div class="hud-card">
         <div class="card-corner top-left"></div>
         <div class="card-corner bottom-right"></div>
-
         <div class="status-column-grid">
           <div class="status-col main-info">
             <div class="beacon-wrapper">
-              <span class="live-beacon"></span>
-              <span class="beacon-ring"></span>
+              <div class="live-beacon"></div>
+              <div class="beacon-ring"></div>
             </div>
             <div>
-              <h3>ALL SYSTEMS OPERATIONAL</h3>
-              <p class="sub-status">Bot is active and synced with Discord.</p>
+              <h3>ACTIVE LINK</h3>
+              <div class="sub-status">Node ID: 0x8F92</div>
             </div>
           </div>
 
           <div class="status-col">
             <div class="status-col-header">
-              <span class="col-title"><i class="fa-solid fa-wifi"></i> LATENCY</span>
-              <span class="ping-number" id="ping-val">22ms</span>
+              <span class="col-title"><i class="fa-solid fa-wifi"></i> Latency</span>
+              <span class="ping-number">14 ms</span>
             </div>
             <div class="signal-bar-track">
-              <div class="signal-bar-fill" id="signal-fill"></div>
+              <div class="signal-bar-fill"></div>
             </div>
           </div>
 
           <div class="status-col">
             <div class="status-col-header">
-              <span class="col-title"><i class="fa-solid fa-heart-pulse"></i> SYSTEM HEALTH</span>
+              <span class="col-title"><i class="fa-solid fa-heart-pulse"></i> Integrity</span>
               <span class="health-percent">99.98%</span>
             </div>
             <div class="health-bar-track">
@@ -285,79 +178,51 @@
         </div>
       </div>
     </section>
-
   </main>
 
   <footer>
-    <p>JONATHAN BOT // BUILT BY <span class="owner-tag"><i class="fa-brands fa-discord"></i> @del_lyy</span></p>
+    <p>HUD INTERFACE &copy; 2026 | OPERATED BY <span class="owner-tag">SYSTEM_ADMIN</span></p>
   </footer>
 
   <script>
-    function openTab(evt, tabName) {
-      const tabContents = document.getElementsByClassName("tab-content");
-      for (let i = 0; i < tabContents.length; i++) {
-        tabContents[i].classList.remove("active");
-      }
+    // Tab Switching
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-      const tabBtns = document.getElementsByClassName("tab-btn");
-      for (let i = 0; i < tabBtns.length; i++) {
-        tabBtns[i].classList.remove("active");
-      }
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
 
-      document.getElementById(tabName).classList.add("active");
-      evt.currentTarget.classList.add("active");
-    }
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
 
-    // Custom Dot Cursor
+    // Custom Cursor
     const cursor = document.getElementById('custom-cursor');
-    window.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
+    document.addEventListener('mousemove', e => {
+      cursor.style.top = `${e.clientY}px`;
+      cursor.style.left = `${e.clientX}px`;
     });
 
-    const interactiveElements = document.querySelectorAll('button, .hud-card, .cmd-row, a');
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.width = '14px';
-        cursor.style.height = '14px';
-        cursor.style.backgroundColor = '#ffffff';
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.style.width = '8px';
-        cursor.style.height = '8px';
-        cursor.style.backgroundColor = '#00f2fe';
-      });
-    });
-
-    // Loader logic
+    // Hide Loader
     window.addEventListener('load', () => {
-      const statusText = document.getElementById('loader-status');
-      const loader = document.getElementById('cyber-loader');
-
-      const steps = ["LOADING DATA...", "CONNECTING TO DISCORD...", "READY"];
-      let i = 0;
-      const interval = setInterval(() => {
-        if(i < steps.length) {
-          statusText.innerText = steps[i];
-          i++;
-        } else {
-          clearInterval(interval);
-          setTimeout(() => { loader.classList.add('hide'); }, 300);
-        }
-      }, 350);
+      setTimeout(() => {
+        document.getElementById('cyber-loader').classList.add('hide');
+      }, 800);
     });
 
-    // Dynamic Ping updates
-    setInterval(() => {
-      const pingElement = document.getElementById('ping-val');
-      const signalFill = document.getElementById('signal-fill');
-      if (pingElement && signalFill) {
-        const randomPing = Math.floor(Math.random() * (35 - 16 + 1)) + 16;
-        pingElement.innerText = randomPing + 'ms';
-        const fillPercent = Math.max(10, 100 - (randomPing * 2));
-        signalFill.style.width = fillPercent + '%';
-      }
-    }, 2500);
+    // Mini Click Effect
+    document.addEventListener('click', (e) => {
+      const particle = document.createElement('div');
+      particle.className = 'click-particle';
+      particle.style.left = `${e.clientX}px`;
+      particle.style.top = `${e.clientY}px`;
+      document.body.appendChild(particle);
+
+      setTimeout(() => particle.remove(), 400);
+    });
   </script>
 </body>
 </html>
