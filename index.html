@@ -71,7 +71,7 @@
     <div class="particle-layer"></div>
     <div class="bg-horror-static"></div>
   </div>
-  
+
   <!-- CRT Scanlines -->
   <div class="crt-lines"></div>
 
@@ -152,7 +152,7 @@
         <div class="status-card hud-card">
           <div class="card-corner top-left"></div>
           <div class="card-corner bottom-right"></div>
-          
+
           <div class="status-column-grid">
             <div class="status-col main-info">
               <div class="beacon-wrapper">
@@ -253,7 +253,7 @@
           <section class="damages-section">
             <div class="section-tag"><span>02</span> // PENALTY THRESHOLDS</div>
             <p class="section-desc">Jon-Bot uses a custom infraction points system called Damages. Reaching specific damage numbers triggers automatic punishments.</p>
-            
+
             <div class="hud-grid">
               <div class="hud-card">
                 <div class="card-corner top-left"></div>
@@ -301,7 +301,7 @@
         <div class="tab-main-content">
           <section class="commands-section">
             <div class="section-tag"><span>03</span> // COMMANDS LIST</div>
-            
+
             <div class="terminal-container">
               <div class="terminal-header">
                 <span class="dot cyan"></span>
@@ -351,18 +351,18 @@
         <div class="tab-main-content">
           <section class="support-section">
             <div class="section-tag"><span>04</span> // COMMUNITY & SUPPORT</div>
-            
+
             <div class="hud-card support-card">
               <div class="card-corner top-left"></div>
               <div class="card-corner bottom-right"></div>
-              
+
               <div class="support-header">
                 <i class="fa-brands fa-discord support-icon"></i>
                 <h2>JOIN THE SUPPORT SERVER</h2>
               </div>
-              
+
               <p class="support-desc">Need assistance with Jon-Bot, want to report an issue, or suggest a new feature? Join our Discord server to connect with support.</p>
-              
+
               <div class="support-btn-wrapper">
                 <a href="https://discord.gg/Q3RKjJyMWU" target="_blank" rel="noopener noreferrer" class="join-btn">
                   <i class="fa-brands fa-discord"></i> JOIN SERVER
@@ -464,19 +464,19 @@
       // Boot Loader Sequence
       const statusText = document.getElementById('loader-status');
       const loader = document.getElementById('cyber-loader');
-      
+
       if (loader && statusText) {
         const steps = ["LOADING DATA...", "CONNECTING TO DISCORD...", "READY"];
         let i = 0;
-        
+
         const interval = setInterval(() => {
           if (i < steps.length) {
             statusText.innerText = steps[i];
             i++;
           } else {
             clearInterval(interval);
-            setTimeout(() => { 
-              loader.classList.add('hide'); 
+            setTimeout(() => {
+              loader.classList.add('hide');
             }, 300);
           }
         }, 350);
@@ -486,7 +486,7 @@
       setInterval(() => {
         const pingElement = document.getElementById('ping-val');
         const signalFill = document.getElementById('signal-fill');
-        
+
         if (pingElement && signalFill) {
           const randomPing = Math.floor(Math.random() * (35 - 16 + 1)) + 16;
           pingElement.innerText = randomPing + 'ms';
