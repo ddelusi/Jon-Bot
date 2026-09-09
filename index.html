@@ -1,227 +1,499 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CYBER / HUD Interface</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JONATHAN // Private Bot</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    /* Centered Cursor & Click Effect Styles */
+    #custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      background-color: #00f2fe;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 999999;
+      transform: translate(-50%, -50%) scale(1);
+      transform-origin: center center;
+      transition: width 0.15s ease, height 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+    }
+
+    #custom-cursor.click-active {
+      transform: translate(-50%, -50%) scale(0.5);
+      background-color: #00f2fe !important;
+    }
+
+    .click-ripple {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #00f2fe;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(1);
+      animation: ripple-anim 0.4s ease-out forwards;
+      z-index: 99998;
+    }
+
+    @keyframes ripple-anim {
+      to {
+        transform: translate(-50%, -50%) scale(2.5);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Custom Cursor -->
+  <!-- Custom Glowing Dot Cursor -->
   <div id="custom-cursor"></div>
 
-  <!-- Background Layers -->
+  <!-- Intro Loader -->
+  <div id="cyber-loader">
+    <div class="loader-box">
+      <div class="loader-hex">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <div class="terminal-text">
+        <span id="loader-status">STARTING UP...</span>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Layer -->
   <div class="bg-wrapper">
     <div class="particle-layer"></div>
     <div class="bg-horror-static"></div>
   </div>
+
+  <!-- CRT Scanlines -->
   <div class="crt-lines"></div>
 
-  <!-- Loader -->
-  <div id="cyber-loader">
-    <div class="loader-box">
-      <div class="loader-hex">⬡</div>
-      <div class="terminal-text">INITIALIZING HUD SYSTEM...</div>
-      <div class="progress-bar">
-        <div class="progress-fill"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- HUD Header/Nav -->
-  <header class="hud-nav">
+  <!-- Navigation -->
+  <nav class="hud-nav">
     <div class="hud-logo">
       <div class="status-dot"></div>
-      <span>SYSTEM<small>v2.04</small></span>
+      <span>JONATHAN<small>v4.2</small></span>
     </div>
 
-    <nav class="nav-tabs">
-      <button class="tab-btn active" data-tab="overview">
-        <i class="fa-solid fa-border-all"></i> Overview
-      </button>
-      <button class="tab-btn" data-tab="commands">
-        <i class="fa-solid fa-terminal"></i> Commands
-      </button>
-      <button class="tab-btn" data-tab="support">
-        <i class="fa-solid fa-headset"></i> Support
-      </button>
-    </nav>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="openTab(event, 'overview')"><i class="fa-solid fa-house"></i> Overview</button>
+      <button class="tab-btn" onclick="openTab(event, 'game-info')"><i class="fa-solid fa-gamepad"></i> About Game</button>
+      <button class="tab-btn" onclick="openTab(event, 'damages')"><i class="fa-solid fa-gavel"></i> Damages System</button>
+      <button class="tab-btn" onclick="openTab(event, 'commands')"><i class="fa-solid fa-terminal"></i> Commands</button>
+      <button class="tab-btn" onclick="openTab(event, 'support')"><i class="fa-brands fa-discord"></i> Support</button>
+    </div>
 
     <div class="hud-status-badge">
       <span class="pulse-ring"></span>
-      <span>ONLINE</span>
+      <span><i class="fa-solid fa-circle-check"></i> BOT ONLINE</span>
     </div>
-  </header>
+  </nav>
 
   <main class="container">
-    <div class="hero-hud">
-      <span class="badge-tag">TERMINAL CONTROL</span>
-      <h1 class="hero-title">HUD INTERFACE</h1>
-      <p class="subtitle">System diagnostics and real-time interface operations.</p>
+
+    <!-- TAB 1: OVERVIEW -->
+    <div id="overview" class="tab-content active">
+      <header class="hero-hud">
+        <div class="badge-tag"><i class="fa-solid fa-crown"></i> PRIVATE DISCORD BOT</div>
+        <h1 class="hero-title">JONATHAN</h1>
+        <p class="subtitle">Custom security & server management bot built for private Discord servers.</p>
+      </header>
+
+      <div class="tab-layout">
+        <div class="tab-main-content">
+          <div class="overview-grid">
+            <div class="hud-card feature-card">
+              <div class="card-corner top-left"></div>
+              <div class="card-corner bottom-right"></div>
+              <i class="fa-solid fa-bolt card-icon"></i>
+              <h3>Fast Responses</h3>
+              <p>Optimized to catch and handle Discord events instantly without delays.</p>
+            </div>
+
+            <div class="hud-card feature-card">
+              <div class="card-corner top-left"></div>
+              <div class="card-corner bottom-right"></div>
+              <i class="fa-solid fa-shield-cat card-icon"></i>
+              <h3>Damages Metric</h3>
+              <p>Replaces basic warning systems with automatic penalty thresholds.</p>
+            </div>
+
+            <div class="hud-card feature-card">
+              <div class="card-corner top-left"></div>
+              <div class="card-corner bottom-right"></div>
+              <i class="fa-solid fa-sliders card-icon"></i>
+              <h3>Easy Controls</h3>
+              <p>Packed with simple commands for smooth daily admin work.</p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="tab-side-media">
+          <div class="hud-card cat-card">
+            <div class="card-corner top-left"></div>
+            <div class="card-corner bottom-right"></div>
+            <div class="cat-image-wrapper">
+              <img src="47557b6b22690742b5dad865205dc3de.jpg" alt="White Kitten" class="cat-img" />
+            </div>
+            <span class="cat-caption"><i class="fa-solid fa-cat"></i> SYSTEM_COMPANION_01</span>
+          </div>
+        </aside>
+      </div>
+
+      <!-- STATUS SECTION (ONLY IN OVERVIEW TAB) -->
+      <section class="bottom-status-section">
+        <div class="status-card hud-card">
+          <div class="card-corner top-left"></div>
+          <div class="card-corner bottom-right"></div>
+
+          <div class="status-column-grid">
+            <div class="status-col main-info">
+              <div class="beacon-wrapper">
+                <span class="live-beacon"></span>
+                <span class="beacon-ring"></span>
+              </div>
+              <div>
+                <h3>ALL SYSTEMS OPERATIONAL</h3>
+                <p class="sub-status">Bot is active and synced with Discord.</p>
+              </div>
+            </div>
+
+            <div class="status-col">
+              <div class="status-col-header">
+                <span class="col-title"><i class="fa-solid fa-wifi"></i> LATENCY</span>
+                <span class="ping-number" id="ping-val">22ms</span>
+              </div>
+              <div class="signal-bar-track">
+                <div class="signal-bar-fill" id="signal-fill"></div>
+              </div>
+            </div>
+
+            <div class="status-col">
+              <div class="status-col-header">
+                <span class="col-title"><i class="fa-solid fa-heart-pulse"></i> SYSTEM HEALTH</span>
+                <span class="health-percent">99.98%</span>
+              </div>
+              <div class="health-bar-track">
+                <div class="health-bar-fill"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
 
-    <!-- OVERVIEW TAB -->
-    <section id="overview" class="tab-content active">
-      <div class="overview-grid">
-        <div class="hud-card feature-card">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <i class="fa-solid fa-microchip card-icon"></i>
-          <h3>Core Diagnostics</h3>
-          <p>Real-time processing parameters and memory allocation monitoring.</p>
+    <!-- TAB 2: ABOUT GAME (CHAIN & SUPPRESSION STUDIOS) -->
+    <div id="game-info" class="tab-content">
+      <div class="tab-layout">
+        <div class="tab-main-content">
+          <section class="game-section">
+            <div class="section-tag"><span>01</span> // TARGET COMMUNITY</div>
+            <header class="hero-hud" style="text-align: left; margin-bottom: 25px;">
+              <div style="margin-bottom: 10px;">
+                <img src="6f66a0d73e9894e62fe0ee48c209911b.png" alt="CHAIN Logo" style="height: 60px; object-fit: contain; display: block;" />
+              </div>
+              <p class="subtitle" style="margin: 5px 0 0 0;">DEVELOPED BY SUPPRESSION STUDIOS</p>
+            </header>
+
+            <div class="overview-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+              <div class="hud-card feature-card">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <i class="fa-solid fa-skull card-icon"></i>
+                <h3>Survival Horror</h3>
+                <p>Jonathan is built specifically for the <strong>CHAIN</strong> Discord server—a fast-paced horror game on Roblox where you have to complete objectives and try to survive.</p>
+              </div>
+
+              <div class="hud-card feature-card">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <i class="fa-solid fa-building card-icon"></i>
+                <h3>Suppression Studios</h3>
+                <p>Made by <strong>SUPPRESSION STUDIOS</strong>, a small team focused on making immersive Roblox horror games, host events, and cool gameplay stuff.</p>
+              </div>
+            </div>
+
+            <div class="hud-card" style="margin-top: 20px; padding: 20px;">
+              <div class="card-corner top-left"></div>
+              <div class="card-corner bottom-right"></div>
+              <div class="card-header">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h3>COMMUNITY INTEGRATION</h3>
+              </div>
+              <p style="margin-top: 10px; color: var(--text-dim); font-size: 0.95rem; line-height: 1.6;">
+                Jonathan handles basic moderation, auto-warns/mutes using the <em>Damages System</em>, helps run events, and logs stuff for mods to keep the server clean.
+              </p>
+            </div>
+          </section>
         </div>
 
-        <div class="hud-card feature-card">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <i class="fa-solid fa-shield-halved card-icon"></i>
-          <h3>Security Protocols</h3>
-          <p>Automated threat containment and active integrity validation.</p>
-        </div>
-
-        <div class="hud-card feature-card">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner bottom-right"></div>
-          <i class="fa-solid fa-network-wired card-icon"></i>
-          <h3>Network Relay</h3>
-          <p>Low-latency telemetry and distributed server synchronization.</p>
-        </div>
+        <aside class="tab-side-media">
+          <div class="hud-card cat-card">
+            <div class="card-corner top-left"></div>
+            <div class="card-corner bottom-right"></div>
+            <div class="cat-image-wrapper">
+              <img src="b15c0783576fd904ef87e801ac896655.webp" alt="Suppression Studios Logo" class="cat-img" />
+            </div>
+          </div>
+        </aside>
       </div>
-    </section>
+    </div>
 
-    <!-- COMMANDS TAB -->
-    <section id="commands" class="tab-content">
-      <div class="terminal-container">
-        <div class="terminal-header">
-          <span class="dot cyan"></span>
-          <span class="dot grey"></span>
-          <span class="dot white"></span>
-          <span class="terminal-title">system_commands.exe</span>
+    <!-- TAB 3: DAMAGES SYSTEM -->
+    <div id="damages" class="tab-content">
+      <div class="tab-layout">
+        <div class="tab-main-content">
+          <section class="damages-section">
+            <div class="section-tag"><span>02</span> // PENALTY THRESHOLDS</div>
+            <p class="section-desc">Jonathan uses a custom infraction points system called Damages. Reaching specific damage numbers triggers automatic punishments.</p>
+
+            <div class="hud-grid">
+              <div class="hud-card">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-header">
+                  <i class="fa-solid fa-volume-xmark"></i>
+                  <h3>AUTO-MUTE LEVEL</h3>
+                </div>
+                <div class="counter-display">3 <span>DAMAGES</span></div>
+                <div class="meter-bar"><div class="fill warning-fill"></div></div>
+                <p>Hitting 3 damages automatically mutes the member across text and voice channels.</p>
+              </div>
+
+              <div class="hud-card">
+                <div class="card-corner top-left"></div>
+                <div class="card-corner bottom-right"></div>
+                <div class="card-header">
+                  <i class="fa-solid fa-user-slash"></i>
+                  <h3>AUTO-BAN LEVEL</h3>
+                </div>
+                <div class="counter-display">25 <span>DAMAGES</span></div>
+                <div class="meter-bar"><div class="fill danger-fill"></div></div>
+                <p>Hitting 25 damages triggers an instant automatic ban and logs the incident.</p>
+              </div>
+            </div>
+          </section>
         </div>
-        <div class="command-grid">
-          <div class="cmd-row">
-            <span class="cmd">/status</span>
-            <span class="desc">Retrieves current operational status and latency.</span>
+
+        <aside class="tab-side-media">
+          <div class="hud-card cat-card">
+            <div class="card-corner top-left"></div>
+            <div class="card-corner bottom-right"></div>
+            <div class="cat-image-wrapper">
+              <img src="cd6e087d14f4cc83df5643b6f6955482.jpg" alt="Beer Cat" class="cat-img" />
+            </div>
+            <span class="cat-caption"><i class="fa-solid fa-beer-mug-empty"></i> SYSTEM_COMPANION_02</span>
           </div>
-          <div class="cmd-row">
-            <span class="cmd">/diagnose</span>
-            <span class="desc">Executes a full diagnostic routine on connected nodes.</span>
-          </div>
-          <div class="cmd-row">
-            <span class="cmd">/purge</span>
-            <span class="desc">Clears cached runtime telemetry data.</span>
-          </div>
-          <div class="cmd-row">
-            <span class="cmd">/reboot</span>
-            <span class="desc">Restarts subsystem modules safely.</span>
-          </div>
-        </div>
+        </aside>
       </div>
-    </section>
+    </div>
 
-    <!-- SUPPORT TAB -->
-    <section id="support" class="tab-content">
-      <div class="hud-card support-card">
-        <div class="card-corner top-left"></div>
-        <div class="card-corner bottom-right"></div>
-        <div class="support-header">
-          <i class="fa-solid fa-headset support-icon"></i>
-          <h2>System Support</h2>
+    <!-- TAB 4: COMMANDS -->
+    <div id="commands" class="tab-content">
+      <div class="tab-layout">
+        <div class="tab-main-content">
+          <section class="commands-section">
+            <div class="section-tag"><span>03</span> // COMMANDS LIST</div>
+
+            <div class="terminal-container">
+              <div class="terminal-header">
+                <span class="dot cyan"></span>
+                <span class="dot grey"></span>
+                <span class="dot white"></span>
+                <span class="terminal-title">available_commands.sys</span>
+              </div>
+              <div class="command-grid">
+                <div class="cmd-row"><code class="cmd">/addemote</code><span class="desc">Add custom emotes via URL or attachment.</span></div>
+                <div class="cmd-row"><code class="cmd">/ban</code><span class="desc">Manually ban a user.</span></div>
+                <div class="cmd-row"><code class="cmd">/checkdamage</code><span class="desc">Check current damages and user logs.</span></div>
+                <div class="cmd-row"><code class="cmd">/clearwarnings</code><span class="desc">Clear warning history for a user.</span></div>
+                <div class="cmd-row"><code class="cmd">/damage</code><span class="desc">Manually give damages to a user.</span></div>
+                <div class="cmd-row"><code class="cmd">/embed</code><span class="desc">Create custom embed messages.</span></div>
+                <div class="cmd-row"><code class="cmd">/giveaway</code><span class="desc">Start automated giveaways.</span></div>
+                <div class="cmd-row"><code class="cmd">/mute</code><span class="desc">Mute someone in the server.</span></div>
+                <div class="cmd-row"><code class="cmd">/removedamage</code><span class="desc">Remove damages from a user.</span></div>
+                <div class="cmd-row"><code class="cmd">/say</code><span class="desc">Make the bot say a message.</span></div>
+                <div class="cmd-row"><code class="cmd">/setlogchannel</code><span class="desc">Set where mod logs are sent.</span></div>
+                <div class="cmd-row"><code class="cmd">/setprefix</code><span class="desc">Change the text command prefix.</span></div>
+                <div class="cmd-row"><code class="cmd">/speak</code><span class="desc">Play text-to-speech audio in voice chat.</span></div>
+                <div class="cmd-row"><code class="cmd">/unban</code><span class="desc">Unban a user.</span></div>
+                <div class="cmd-row"><code class="cmd">/unmute</code><span class="desc">Unmute a user.</span></div>
+                <div class="cmd-row"><code class="cmd">/warn</code><span class="desc">Issue a regular warning.</span></div>
+                <div class="cmd-row"><code class="cmd">/warnings</code><span class="desc">View full warning log.</span></div>
+              </div>
+            </div>
+          </section>
         </div>
-        <p class="support-desc">Need technical assistance or connection setup guidance? Access community channels for support.</p>
-        <div class="support-btn-wrapper">
-          <a href="#" class="join-btn">
-            <i class="fa-brands fa-discord"></i> Connect to Relay
-          </a>
-        </div>
+
+        <aside class="tab-side-media">
+          <div class="hud-card cat-card">
+            <div class="card-corner top-left"></div>
+            <div class="card-corner bottom-right"></div>
+            <div class="cat-image-wrapper">
+              <img src="18b3141b565855b626069f16e064f51b.jpg" alt="Tabby Kitten" class="cat-img" />
+            </div>
+            <span class="cat-caption"><i class="fa-solid fa-terminal"></i> SYSTEM_COMPANION_03</span>
+          </div>
+        </aside>
       </div>
-    </section>
+    </div>
 
-    <!-- BOTTOM STATUS SECTION -->
-    <section class="bottom-status-section">
-      <div class="hud-card">
-        <div class="card-corner top-left"></div>
-        <div class="card-corner bottom-right"></div>
-        <div class="status-column-grid">
-          <div class="status-col main-info">
-            <div class="beacon-wrapper">
-              <div class="live-beacon"></div>
-              <div class="beacon-ring"></div>
-            </div>
-            <div>
-              <h3>ACTIVE LINK</h3>
-              <div class="sub-status">Node ID: 0x8F92</div>
-            </div>
-          </div>
+    <!-- TAB 5: SUPPORT SERVER -->
+    <div id="support" class="tab-content">
+      <div class="tab-layout">
+        <div class="tab-main-content">
+          <section class="support-section">
+            <div class="section-tag"><span>04</span> // COMMUNITY & SUPPORT</div>
 
-          <div class="status-col">
-            <div class="status-col-header">
-              <span class="col-title"><i class="fa-solid fa-wifi"></i> Latency</span>
-              <span class="ping-number">14 ms</span>
-            </div>
-            <div class="signal-bar-track">
-              <div class="signal-bar-fill"></div>
-            </div>
-          </div>
+            <div class="hud-card support-card">
+              <div class="card-corner top-left"></div>
+              <div class="card-corner bottom-right"></div>
 
-          <div class="status-col">
-            <div class="status-col-header">
-              <span class="col-title"><i class="fa-solid fa-heart-pulse"></i> Integrity</span>
-              <span class="health-percent">99.98%</span>
+              <div class="support-header">
+                <i class="fa-brands fa-discord support-icon"></i>
+                <h2>JOIN THE SUPPORT SERVER</h2>
+              </div>
+
+              <p class="support-desc">Need assistance with Jonathan Bot, want to report an issue, or suggest a new feature? Join our Discord server to connect with support.</p>
+
+              <div class="support-btn-wrapper">
+                <a href="https://discord.gg/Q3RKjJyMWU" target="_blank" rel="noopener noreferrer" class="join-btn">
+                  <i class="fa-brands fa-discord"></i> JOIN SERVER
+                </a>
+              </div>
             </div>
-            <div class="health-bar-track">
-              <div class="health-bar-fill"></div>
-            </div>
-          </div>
+          </section>
         </div>
+
+        <aside class="tab-side-media">
+          <div class="hud-card cat-card">
+            <div class="card-corner top-left"></div>
+            <div class="card-corner bottom-right"></div>
+            <div class="cat-image-wrapper">
+              <img src="47557b6b22690742b5dad865205dc3de.jpg" alt="White Kitten" class="cat-img" />
+            </div>
+            <span class="cat-caption"><i class="fa-solid fa-headset"></i> SYSTEM_COMPANION_04</span>
+          </div>
+        </aside>
       </div>
-    </section>
+    </div>
+
   </main>
 
   <footer>
-    <p>HUD INTERFACE &copy; 2026 | OPERATED BY <span class="owner-tag">SYSTEM_ADMIN</span></p>
+    <p>JONATHAN BOT // BUILT BY <span class="owner-tag"><i class="fa-brands fa-discord"></i> @del_lyy</span></p>
   </footer>
 
   <script>
-    // Tab Switching
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
+    function openTab(evt, tabName) {
+      const tabContents = document.getElementsByClassName("tab-content");
+      for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove("active");
+      }
 
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        tabBtns.forEach(b => b.classList.remove('active'));
-        tabContents.forEach(c => c.classList.remove('active'));
+      const tabBtns = document.getElementsByClassName("tab-btn");
+      for (let i = 0; i < tabBtns.length; i++) {
+        tabBtns[i].classList.remove("active");
+      }
 
-        btn.classList.add('active');
-        document.getElementById(btn.dataset.tab).classList.add('active');
+      const targetTab = document.getElementById(tabName);
+      if (targetTab) {
+        targetTab.classList.add("active");
+      }
+      if (evt && evt.currentTarget) {
+        evt.currentTarget.classList.add("active");
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const cursor = document.getElementById('custom-cursor');
+
+      // Track cursor position centered
+      window.addEventListener('mousemove', (e) => {
+        if (cursor) {
+          cursor.style.left = e.clientX + 'px';
+          cursor.style.top = e.clientY + 'px';
+        }
       });
-    });
 
-    // Custom Cursor
-    const cursor = document.getElementById('custom-cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.top = `${e.clientY}px`;
-      cursor.style.left = `${e.clientX}px`;
-    });
+      // Click Effect: Pulse centered cursor and spawn ripple
+      window.addEventListener('mousedown', (e) => {
+        if (cursor) {
+          cursor.classList.add('click-active');
+        }
 
-    // Hide Loader
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('cyber-loader').classList.add('hide');
-      }, 800);
-    });
+        const ripple = document.createElement('div');
+        ripple.className = 'click-ripple';
+        ripple.style.left = e.clientX + 'px';
+        ripple.style.top = e.clientY + 'px';
+        document.body.appendChild(ripple);
 
-    // Mini Click Effect
-    document.addEventListener('click', (e) => {
-      const particle = document.createElement('div');
-      particle.className = 'click-particle';
-      particle.style.left = `${e.clientX}px`;
-      particle.style.top = `${e.clientY}px`;
-      document.body.appendChild(particle);
+        setTimeout(() => {
+          ripple.remove();
+        }, 400);
+      });
 
-      setTimeout(() => particle.remove(), 400);
+      window.addEventListener('mouseup', () => {
+        if (cursor) {
+          cursor.classList.remove('click-active');
+        }
+      });
+
+      // Global Hover Delegation
+      document.addEventListener('mouseover', (e) => {
+        if (!cursor) return;
+        const target = e.target.closest('button, .hud-card, .cmd-row, a');
+        if (target) {
+          cursor.style.width = '16px';
+          cursor.style.height = '16px';
+          cursor.style.backgroundColor = '#ffffff';
+        } else {
+          cursor.style.width = '8px';
+          cursor.style.height = '8px';
+          cursor.style.backgroundColor = '#00f2fe';
+        }
+      });
+
+      // Boot Loader Sequence
+      const statusText = document.getElementById('loader-status');
+      const loader = document.getElementById('cyber-loader');
+
+      if (loader && statusText) {
+        const steps = ["LOADING DATA...", "CONNECTING TO DISCORD...", "READY"];
+        let i = 0;
+
+        const interval = setInterval(() => {
+          if (i < steps.length) {
+            statusText.innerText = steps[i];
+            i++;
+          } else {
+            clearInterval(interval);
+            setTimeout(() => {
+              loader.classList.add('hide');
+            }, 300);
+          }
+        }, 350);
+      }
+
+      // Dynamic Network Latency Generator
+      setInterval(() => {
+        const pingElement = document.getElementById('ping-val');
+        const signalFill = document.getElementById('signal-fill');
+
+        if (pingElement && signalFill) {
+          const randomPing = Math.floor(Math.random() * (35 - 16 + 1)) + 16;
+          pingElement.innerText = randomPing + 'ms';
+          const fillPercent = Math.max(10, 100 - (randomPing * 2));
+          signalFill.style.width = fillPercent + '%';
+        }
+      }, 2500);
     });
   </script>
 </body>
