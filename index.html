@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JONATHAN // Private Bot</title>
+  <title>Jon-Bot</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
@@ -71,7 +71,7 @@
     <div class="particle-layer"></div>
     <div class="bg-horror-static"></div>
   </div>
-
+  
   <!-- CRT Scanlines -->
   <div class="crt-lines"></div>
 
@@ -79,7 +79,7 @@
   <nav class="hud-nav">
     <div class="hud-logo">
       <div class="status-dot"></div>
-      <span>JONATHAN<small>v4.2</small></span>
+      <span>JON-BOT<small>v4.2</small></span>
     </div>
 
     <div class="nav-tabs">
@@ -100,9 +100,9 @@
 
     <!-- TAB 1: OVERVIEW -->
     <div id="overview" class="tab-content active">
-      <header class="hero-hud">
+      header class="hero-hud">
         <div class="badge-tag"><i class="fa-solid fa-crown"></i> PRIVATE DISCORD BOT</div>
-        <h1 class="hero-title">JONATHAN</h1>
+        <h1 class="hero-title">JON-BOT</h1>
         <p class="subtitle">Custom security & server management bot built for private Discord servers.</p>
       </header>
 
@@ -152,7 +152,7 @@
         <div class="status-card hud-card">
           <div class="card-corner top-left"></div>
           <div class="card-corner bottom-right"></div>
-
+          
           <div class="status-column-grid">
             <div class="status-col main-info">
               <div class="beacon-wrapper">
@@ -208,7 +208,7 @@
                 <div class="card-corner bottom-right"></div>
                 <i class="fa-solid fa-skull card-icon"></i>
                 <h3>Survival Horror</h3>
-                <p>Jonathan is built specifically for the <strong>CHAIN</strong> Discord server—a fast-paced horror game on Roblox where you have to complete objectives and try to survive.</p>
+                <p>Jon-Bot is built specifically for the <strong>CHAIN</strong> Discord server—a fast-paced horror game on Roblox where you have to complete objectives and try to survive.</p>
               </div>
 
               <div class="hud-card feature-card">
@@ -228,7 +228,7 @@
                 <h3>COMMUNITY INTEGRATION</h3>
               </div>
               <p style="margin-top: 10px; color: var(--text-dim); font-size: 0.95rem; line-height: 1.6;">
-                Jonathan handles basic moderation, auto-warns/mutes using the <em>Damages System</em>, helps run events, and logs stuff for mods to keep the server clean.
+                Jon-Bot handles basic moderation, auto-warns/mutes using the <em>Damages System</em>, helps run events, and logs stuff for mods to keep the server clean.
               </p>
             </div>
           </section>
@@ -252,8 +252,8 @@
         <div class="tab-main-content">
           <section class="damages-section">
             <div class="section-tag"><span>02</span> // PENALTY THRESHOLDS</div>
-            <p class="section-desc">Jonathan uses a custom infraction points system called Damages. Reaching specific damage numbers triggers automatic punishments.</p>
-
+            <p class="section-desc">Jon-Bot uses a custom infraction points system called Damages. Reaching specific damage numbers triggers automatic punishments.</p>
+            
             <div class="hud-grid">
               <div class="hud-card">
                 <div class="card-corner top-left"></div>
@@ -301,7 +301,7 @@
         <div class="tab-main-content">
           <section class="commands-section">
             <div class="section-tag"><span>03</span> // COMMANDS LIST</div>
-
+            
             <div class="terminal-container">
               <div class="terminal-header">
                 <span class="dot cyan"></span>
@@ -351,18 +351,18 @@
         <div class="tab-main-content">
           <section class="support-section">
             <div class="section-tag"><span>04</span> // COMMUNITY & SUPPORT</div>
-
+            
             <div class="hud-card support-card">
               <div class="card-corner top-left"></div>
               <div class="card-corner bottom-right"></div>
-
+              
               <div class="support-header">
                 <i class="fa-brands fa-discord support-icon"></i>
                 <h2>JOIN THE SUPPORT SERVER</h2>
               </div>
-
-              <p class="support-desc">Need assistance with Jonathan Bot, want to report an issue, or suggest a new feature? Join our Discord server to connect with support.</p>
-
+              
+              <p class="support-desc">Need assistance with Jon-Bot, want to report an issue, or suggest a new feature? Join our Discord server to connect with support.</p>
+              
               <div class="support-btn-wrapper">
                 <a href="https://discord.gg/Q3RKjJyMWU" target="_blank" rel="noopener noreferrer" class="join-btn">
                   <i class="fa-brands fa-discord"></i> JOIN SERVER
@@ -388,7 +388,7 @@
   </main>
 
   <footer>
-    <p>JONATHAN BOT // BUILT BY <span class="owner-tag"><i class="fa-brands fa-discord"></i> @del_lyy</span></p>
+    <p>JON-BOT // BUILT BY <span class="owner-tag"><i class="fa-brands fa-discord"></i> @del_lyy</span></p>
   </footer>
 
   <script>
@@ -464,19 +464,19 @@
       // Boot Loader Sequence
       const statusText = document.getElementById('loader-status');
       const loader = document.getElementById('cyber-loader');
-
+      
       if (loader && statusText) {
         const steps = ["LOADING DATA...", "CONNECTING TO DISCORD...", "READY"];
         let i = 0;
-
+        
         const interval = setInterval(() => {
           if (i < steps.length) {
             statusText.innerText = steps[i];
             i++;
           } else {
             clearInterval(interval);
-            setTimeout(() => {
-              loader.classList.add('hide');
+            setTimeout(() => { 
+              loader.classList.add('hide'); 
             }, 300);
           }
         }, 350);
@@ -486,7 +486,7 @@
       setInterval(() => {
         const pingElement = document.getElementById('ping-val');
         const signalFill = document.getElementById('signal-fill');
-
+        
         if (pingElement && signalFill) {
           const randomPing = Math.floor(Math.random() * (35 - 16 + 1)) + 16;
           pingElement.innerText = randomPing + 'ms';
