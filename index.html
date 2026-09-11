@@ -16,13 +16,15 @@
 
     /* Base Styling & Variables */
     :root {
-      --bg-color: #0b0e14;
-      --card-bg: rgba(18, 26, 36, 0.7);
-      --card-border: rgba(0, 242, 254, 0.15);
-      --accent-cyan: #00f2fe;
-      --accent-dim: rgba(0, 242, 254, 0.4);
-      --text-main: #e2e8f0;
-      --text-dim: #94a3b8;
+      --bg-color: #050505;
+      --card-bg: rgba(18, 18, 18, 0.85);
+      --card-border: rgba(255, 30, 30, 0.3);
+      --accent-red: #ff1e1e;
+      --accent-dark-red: #990000;
+      --accent-crimson: #d90429;
+      --accent-white: #ffffff;
+      --text-main: #f8f9fa;
+      --text-dim: #a0a0a0;
     }
 
     body {
@@ -34,9 +36,145 @@
       flex-direction: column;
       overflow-x: hidden;
       touch-action: manipulation;
+      position: relative;
     }
 
-    /* Custom Cursor (Hidden on Touch Devices) */
+    /* Kinetic Glitch Text & Tilted Opening Doors */
+    #text-reveal-intro {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 99999;
+      pointer-events: auto;
+      perspective: 1200px;
+    }
+
+    .intro-door {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50.5%;
+      background: #000000;
+      transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+      z-index: 1;
+      will-change: transform;
+      backface-visibility: hidden;
+    }
+
+    .intro-door-top {
+      top: 0;
+      border-bottom: 2px solid var(--accent-red);
+      box-shadow: 0 4px 25px rgba(255, 30, 30, 0.5);
+      transform-origin: top left;
+    }
+
+    .intro-door-bottom {
+      bottom: 0;
+      border-top: 2px solid var(--accent-red);
+      box-shadow: 0 -4px 25px rgba(255, 30, 30, 0.5);
+      transform-origin: bottom right;
+    }
+
+    /* Tilted Offset Open Motion */
+    #text-reveal-intro.open .intro-door-top {
+      transform: translateY(-105%) rotateX(25deg) rotateY(-15deg) skewX(-10deg);
+    }
+
+    #text-reveal-intro.open .intro-door-bottom {
+      transform: translateY(105%) rotateX(-25deg) rotateY(15deg) skewX(-10deg);
+    }
+
+    #text-reveal-intro.open {
+      pointer-events: none;
+    }
+
+    .intro-content {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      transition: transform 0.6s ease, opacity 0.3s ease;
+    }
+
+    #text-reveal-intro.open .intro-content {
+      opacity: 0;
+      transform: scale(1.15) rotate(4deg);
+    }
+
+    /* Glitch Reveal Typography */
+    .intro-subtext {
+      font-size: 1.1rem;
+      color: var(--accent-red);
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      font-family: monospace;
+      min-height: 1.5em;
+    }
+
+    .intro-glitch-title {
+      font-size: 3.8rem;
+      font-weight: 900;
+      letter-spacing: 6px;
+      color: #fff;
+      text-shadow: -2px 0 var(--accent-red), 2px 0 var(--accent-dark-red), 0 0 30px rgba(255, 30, 30, 0.6);
+      margin-bottom: 1rem;
+      font-family: monospace;
+      min-height: 1.2em;
+    }
+
+    .intro-status-badge {
+      font-family: monospace;
+      font-size: 0.95rem;
+      color: #ffffff;
+      background: rgba(255, 30, 30, 0.15);
+      border: 1px solid var(--accent-red);
+      padding: 0.4rem 1.2rem;
+      border-radius: 4px;
+      letter-spacing: 3px;
+      min-height: 2em;
+      box-shadow: 0 0 15px rgba(255, 30, 30, 0.3);
+    }
+
+    /* Canvas Overlay for Particle Background */
+    #galaxy-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Ambient Pulse Layer */
+    .nebula-glow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 120vw;
+      height: 120vh;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle at 50% 50%, rgba(255, 30, 30, 0.12) 0%, rgba(153, 0, 0, 0.08) 35%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: -2;
+      animation: ambientPulse 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientPulse {
+      0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+    }
+
+    /* Custom Cursor */
     @media (pointer: fine) {
       #custom-cursor {
         position: fixed;
@@ -44,30 +182,32 @@
         left: 0;
         width: 8px;
         height: 8px;
-        background-color: var(--accent-cyan);
+        background-color: var(--accent-red);
         border-radius: 50%;
         pointer-events: none;
         z-index: 999999;
         transform: translate(-50%, -50%) scale(1);
         transform-origin: center center;
         transition: width 0.15s ease, height 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+        box-shadow: 0 0 10px var(--accent-red), 0 0 20px var(--accent-dark-red);
       }
 
       #custom-cursor.click-active {
         transform: translate(-50%, -50%) scale(0.5);
-        background-color: var(--accent-cyan) !important;
+        background-color: #ffffff !important;
       }
 
       .click-ripple {
         position: fixed;
         width: 20px;
         height: 20px;
-        border: 2px solid var(--accent-cyan);
+        border: 2px solid var(--accent-red);
         border-radius: 50%;
         pointer-events: none;
         transform: translate(-50%, -50%) scale(1);
         animation: ripple-anim 0.4s ease-out forwards;
         z-index: 99998;
+        box-shadow: 0 0 15px var(--accent-red);
       }
     }
 
@@ -91,13 +231,14 @@
       align-items: center;
       justify-content: space-between;
       padding: 1rem 1.5rem;
-      background: rgba(11, 14, 20, 0.9);
-      backdrop-filter: blur(10px);
+      background: rgba(5, 5, 5, 0.9);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--card-border);
       position: sticky;
       top: 0;
       z-index: 1000;
       gap: 1rem;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
     }
 
     .hud-logo {
@@ -107,6 +248,8 @@
       font-weight: 700;
       font-size: 1.2rem;
       letter-spacing: 1px;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 30, 30, 0.6);
     }
 
     .nav-tabs {
@@ -126,8 +269,8 @@
     .tab-btn {
       white-space: nowrap;
       padding: 0.5rem 0.85rem;
-      background: transparent;
-      border: 1px solid transparent;
+      background: rgba(20, 20, 20, 0.6);
+      border: 1px solid rgba(255, 30, 30, 0.2);
       color: var(--text-dim);
       border-radius: 6px;
       cursor: pointer;
@@ -139,9 +282,10 @@
     }
 
     .tab-btn:hover, .tab-btn.active {
-      color: var(--accent-cyan);
-      background: rgba(0, 242, 254, 0.08);
-      border-color: var(--card-border);
+      color: #ffffff;
+      background: rgba(255, 30, 30, 0.2);
+      border-color: var(--accent-red);
+      box-shadow: 0 0 15px rgba(255, 30, 30, 0.4);
     }
 
     /* Container Layout */
@@ -172,7 +316,7 @@
       min-width: 0;
     }
 
-    /* Responsive Grid Layouts */
+    /* Grid Layouts */
     .overview-grid, .hud-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -185,6 +329,19 @@
       border-radius: 8px;
       padding: 1.25rem;
       position: relative;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .hud-card:hover {
+      border-color: var(--accent-red);
+      box-shadow: 0 0 25px rgba(255, 30, 30, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      color: var(--accent-red);
     }
 
     .cat-img {
@@ -193,9 +350,147 @@
       max-height: 280px;
       object-fit: cover;
       border-radius: 6px;
+      filter: grayscale(15%) contrast(105%);
     }
 
-    /* Terminal/Command Grid */
+    /* Threshold Bar Styling for Damages Tab */
+    .threshold-bar-container {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: visible !important;
+      margin: 0.8rem 0 1.2rem 0;
+      position: relative;
+    }
+
+    .threshold-bar-fill {
+      height: 100%;
+      background: var(--accent-red);
+      border-radius: 4px;
+      box-shadow: 0 0 10px var(--accent-red);
+    }
+
+    /* =========================================================
+       3 DAMAGE BAR: Heartbeat Pulse Animation
+       ========================================================= */
+    .bar-3-damage {
+      position: relative !important;
+      background: #ff1e1e !important;
+      box-shadow: 0 0 8px rgba(255, 30, 30, 0.6) !important;
+      animation: heartbeatPulse 1.6s infinite ease-in-out !important;
+      overflow: visible !important;
+    }
+
+    @keyframes heartbeatPulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 8px rgba(255, 30, 30, 0.5);
+      }
+      14% {
+        transform: scale(1.05);
+        box-shadow: 0 0 18px rgba(255, 30, 30, 0.9);
+      }
+      28% {
+        transform: scale(1);
+        box-shadow: 0 0 8px rgba(255, 30, 30, 0.5);
+      }
+      42% {
+        transform: scale(1.03);
+        box-shadow: 0 0 14px rgba(255, 30, 30, 0.8);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 8px rgba(255, 30, 30, 0.5);
+      }
+    }
+
+    /* =========================================================
+       25 DAMAGE BAR: Heavy VHS Noise & Wave Glitch
+       ========================================================= */
+    .bar-static-shake {
+      position: relative !important;
+      background: #ff1e1e !important;
+      box-shadow: 0 0 15px #ff1e1e, 0 0 30px rgba(255, 30, 30, 0.8) !important;
+      animation: vhsShake 0.12s infinite linear !important;
+      overflow: visible !important;
+    }
+
+    /* Base style for pseudo-layer overlays */
+    .bar-static-shake::before,
+    .bar-static-shake::after {
+      content: '' !important;
+      position: absolute !important;
+      top: -2px !important;
+      left: -2px !important;
+      right: -2px !important;
+      bottom: -2px !important;
+      pointer-events: none !important;
+      z-index: 10 !important;
+    }
+
+    /* Layer 1: High-contrast VHS Grain & Static Lines */
+    .bar-static-shake::before {
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.4) 0px,
+          rgba(255, 255, 255, 0.4) 1px,
+          transparent 1px,
+          transparent 4px
+        ),
+        url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.35"/></svg>') !important;
+      mix-blend-mode: overlay !important;
+      animation: vhsStaticScroll 0.08s infinite linear !important;
+    }
+
+    /* Layer 2: Chromatic Wave Split (RGB Displacement) */
+    .bar-static-shake::after {
+      background: linear-gradient(90deg, #00ffff, #ff0055, #00ffff) !important;
+      mix-blend-mode: color-dodge !important;
+      opacity: 0.7 !important;
+      animation: vhsRgbSlice 0.2s infinite steps(2) !important;
+    }
+
+    /* Keyframes */
+    @keyframes vhsShake {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(-3px, 1px) skewX(-2deg); }
+      40% { transform: translate(3px, -1px) skewX(2deg); }
+      60% { transform: translate(-2px, -1px); }
+      80% { transform: translate(2px, 1px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    @keyframes vhsStaticScroll {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 100px; }
+    }
+
+    @keyframes vhsRgbSlice {
+      0% {
+        clip-path: inset(0% 0 70% 0);
+        transform: translate(-6px, 0);
+      }
+      25% {
+        clip-path: inset(40% 0 20% 0);
+        transform: translate(6px, 0);
+      }
+      50% {
+        clip-path: inset(70% 0 0% 0);
+        transform: translate(-4px, 0);
+      }
+      75% {
+        clip-path: inset(20% 0 50% 0);
+        transform: translate(4px, 0);
+      }
+      100% {
+        clip-path: inset(0% 0 70% 0);
+        transform: translate(-6px, 0);
+      }
+    }
+
+    /* Terminal Grid */
     .command-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -207,7 +502,8 @@
       flex-direction: column;
       gap: 0.25rem;
       padding: 0.75rem;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(10, 10, 10, 0.8);
+      border: 1px solid rgba(255, 30, 30, 0.25);
       border-radius: 6px;
     }
 
@@ -239,6 +535,10 @@
       .hud-card {
         padding: 1rem;
       }
+
+      .intro-glitch-title {
+        font-size: 2.2rem;
+      }
     }
 
     footer {
@@ -247,41 +547,36 @@
       border-top: 1px solid var(--card-border);
       color: var(--text-dim);
       font-size: 0.85rem;
+      background: rgba(5, 5, 5, 0.9);
     }
   </style>
 </head>
 <body>
 
-  <!-- Custom Glowing Dot Cursor -->
-  <div id="custom-cursor"></div>
+  <!-- Kinetic Glitch Text Intro with Tilted Opening -->
+  <div id="text-reveal-intro">
+    <div class="intro-door intro-door-top"></div>
+    <div class="intro-door intro-door-bottom"></div>
 
-  <!-- Intro Loader -->
-  <div id="cyber-loader">
-    <div class="loader-box">
-      <div class="loader-hex">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-      <div class="terminal-text">
-        <span id="loader-status">STARTING UP...</span>
-        <div class="progress-bar"><div class="progress-fill"></div></div>
-      </div>
+    <div class="intro-content">
+      <div class="intro-subtext" id="intro-line-1"></div>
+      <div class="intro-glitch-title" id="intro-line-2"></div>
+      <div class="intro-status-badge" id="intro-line-3"></div>
     </div>
   </div>
 
-  <!-- Background Layer -->
-  <div class="bg-wrapper">
-    <div class="particle-layer"></div>
-    <div class="bg-horror-static"></div>
-  </div>
-  
-  <!-- CRT Scanlines -->
-  <div class="crt-lines"></div>
+  <!-- Dynamic Red Canvas Background -->
+  <div class="nebula-glow"></div>
+  <canvas id="galaxy-canvas"></canvas>
+
+  <!-- Custom Glowing Cursor -->
+  <div id="custom-cursor"></div>
 
   <!-- Navigation -->
   <nav class="hud-nav">
     <div class="hud-logo">
-      <div class="status-dot"></div>
-      <span>JON-BOT<small> v4.2</small></span>
+      <div class="status-dot" style="background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); width: 8px; height: 8px; border-radius: 50%;"></div>
+      <span>JON-BOT<small style="color: var(--accent-red);"> v0.1</small></span>
     </div>
 
     <div class="nav-tabs">
@@ -292,9 +587,8 @@
       <button class="tab-btn" onclick="openTab(event, 'support')"><i class="fa-brands fa-discord"></i> Support</button>
     </div>
 
-    <div class="hud-status-badge">
-      <span class="pulse-ring"></span>
-      <span><i class="fa-solid fa-circle-check"></i> ONLINE</span>
+    <div class="hud-status-badge" style="border: 1px solid var(--accent-red); background: rgba(255, 30, 30, 0.1); color: #fff; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.85rem; font-family: monospace;">
+      <span><i class="fa-solid fa-circle-check" style="color: var(--accent-red);"></i> ONLINE</span>
     </div>
   </nav>
 
@@ -302,49 +596,41 @@
 
     <!-- TAB 1: OVERVIEW -->
     <div id="overview" class="tab-content active">
-      <header class="hero-hud">
-        <div class="badge-tag"><i class="fa-solid fa-crown"></i> PRIVATE DISCORD BOT</div>
-        <h1 class="hero-title">JON-BOT</h1>
-        <p class="subtitle">Custom security & server management bot built for private Discord servers.</p>
+      <header class="hero-hud" style="margin-bottom: 1.5rem;">
+        <div class="badge-tag" style="display: inline-block; background: rgba(255, 30, 30, 0.15); border: 1px solid var(--accent-red); color: #fff; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; font-family: monospace; margin-bottom: 0.5rem;"><i class="fa-solid fa-crown" style="color: var(--accent-red);"></i> PRIVATE DISCORD BOT</div>
+        <h1 class="hero-title" style="font-size: 2.5rem; text-shadow: 0 0 20px rgba(255, 30, 30, 0.4);">JON-BOT</h1>
+        <p class="subtitle" style="color: var(--text-dim);">Custom security & server management bot built for private Discord servers.</p>
       </header>
 
       <div class="tab-layout">
         <div class="tab-main-content">
           <div class="overview-grid">
             <div class="hud-card feature-card">
-              <div class="card-corner top-left"></div>
-              <div class="card-corner bottom-right"></div>
-              <i class="fa-solid fa-bolt card-icon"></i>
+              <i class="fa-solid fa-bolt card-icon" style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
               <h3>Fast Responses</h3>
-              <p>Optimized to catch and handle Discord events instantly without delays.</p>
+              <p style="color: var(--text-dim); margin-top: 0.3rem; font-size: 0.9rem;">Optimized to catch and handle Discord events instantly without delays.</p>
             </div>
 
             <div class="hud-card feature-card">
-              <div class="card-corner top-left"></div>
-              <div class="card-corner bottom-right"></div>
-              <i class="fa-solid fa-shield-cat card-icon"></i>
+              <i class="fa-solid fa-shield-cat card-icon" style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
               <h3>Damages Metric</h3>
-              <p>Replaces basic warning systems with automatic penalty thresholds.</p>
+              <p style="color: var(--text-dim); margin-top: 0.3rem; font-size: 0.9rem;">Replaces basic warning systems with automatic penalty thresholds.</p>
             </div>
 
             <div class="hud-card feature-card">
-              <div class="card-corner top-left"></div>
-              <div class="card-corner bottom-right"></div>
-              <i class="fa-solid fa-sliders card-icon"></i>
+              <i class="fa-solid fa-sliders card-icon" style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
               <h3>Easy Controls</h3>
-              <p>Packed with simple commands for smooth daily admin work.</p>
+              <p style="color: var(--text-dim); margin-top: 0.3rem; font-size: 0.9rem;">Packed with simple commands for smooth daily admin work.</p>
             </div>
           </div>
         </div>
 
         <aside class="tab-side-media">
           <div class="hud-card cat-card">
-            <div class="card-corner top-left"></div>
-            <div class="card-corner bottom-right"></div>
             <div class="cat-image-wrapper">
               <img src="47557b6b22690742b5dad865205dc3de.jpg" alt="White Kitten" class="cat-img" loading="lazy" />
             </div>
-            <span class="cat-caption"><i class="fa-solid fa-cat"></i> SYSTEM_COMPANION_01</span>
+            <span class="cat-caption" style="color: var(--accent-red); font-family: monospace; font-size: 0.8rem; display: block; margin-top: 0.5rem;"><i class="fa-solid fa-cat"></i> SYSTEM_COMPANION_01</span>
           </div>
         </aside>
       </div>
@@ -352,38 +638,31 @@
       <!-- STATUS SECTION -->
       <section class="bottom-status-section" style="margin-top: 1.5rem;">
         <div class="status-card hud-card">
-          <div class="card-corner top-left"></div>
-          <div class="card-corner bottom-right"></div>
-          
           <div class="status-column-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
             <div class="status-col main-info">
-              <div class="beacon-wrapper">
-                <span class="live-beacon"></span>
-                <span class="beacon-ring"></span>
-              </div>
               <div>
-                <h3>ALL SYSTEMS OPERATIONAL</h3>
-                <p class="sub-status">Bot is active and synced with Discord.</p>
+                <h3 style="color: #fff;">ALL SYSTEMS OPERATIONAL</h3>
+                <p class="sub-status" style="color: var(--text-dim); font-size: 0.85rem;">Bot is active and synced with Discord.</p>
               </div>
             </div>
 
             <div class="status-col">
-              <div class="status-col-header">
-                <span class="col-title"><i class="fa-solid fa-wifi"></i> LATENCY</span>
-                <span class="ping-number" id="ping-val">22ms</span>
+              <div class="status-col-header" style="display: flex; justify-content: space-between; font-family: monospace; font-size: 0.85rem;">
+                <span class="col-title"><i class="fa-solid fa-wifi" style="color: var(--accent-red);"></i> LATENCY</span>
+                <span class="ping-number" id="ping-val" style="color: #fff;">22ms</span>
               </div>
-              <div class="signal-bar-track">
-                <div class="signal-bar-fill" id="signal-fill"></div>
+              <div class="signal-bar-track" style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden; margin-top: 8px;">
+                <div class="signal-bar-fill" id="signal-fill" style="background: var(--accent-red); height: 100%; width: 80%;"></div>
               </div>
             </div>
 
             <div class="status-col">
-              <div class="status-col-header">
-                <span class="col-title"><i class="fa-solid fa-heart-pulse"></i> SYSTEM HEALTH</span>
-                <span class="health-percent">99.98%</span>
+              <div class="status-col-header" style="display: flex; justify-content: space-between; font-family: monospace; font-size: 0.85rem;">
+                <span class="col-title"><i class="fa-solid fa-heart-pulse" style="color: var(--accent-red);"></i> SYSTEM HEALTH</span>
+                <span class="health-percent" style="color: #fff;">99.98%</span>
               </div>
-              <div class="health-bar-track">
-                <div class="health-bar-fill"></div>
+              <div class="health-bar-track" style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden; margin-top: 8px;">
+                <div class="health-bar-fill" style="background: var(--accent-red); height: 100%; width: 99.98%;"></div>
               </div>
             </div>
           </div>
@@ -396,38 +675,32 @@
       <div class="tab-layout">
         <div class="tab-main-content">
           <section class="game-section">
-            <div class="section-tag"><span>01</span> // TARGET COMMUNITY</div>
+            <div class="section-tag" style="color: var(--accent-red); font-family: monospace; margin-bottom: 0.5rem;"><span>01</span> // TARGET COMMUNITY</div>
             <header class="hero-hud" style="text-align: left; margin-bottom: 25px;">
               <div style="margin-bottom: 10px;">
                 <img src="6f66a0d73e9894e62fe0ee48c209911b.png" alt="CHAIN Logo" style="height: 50px; max-width: 100%; object-fit: contain; display: block;" loading="lazy" />
               </div>
-              <p class="subtitle" style="margin: 5px 0 0 0;">DEVELOPED BY SUPPRESSION STUDIOS</p>
+              <p class="subtitle" style="margin: 5px 0 0 0; color: var(--text-dim);">DEVELOPED BY SUPPRESSION STUDIOS</p>
             </header>
 
             <div class="overview-grid">
               <div class="hud-card feature-card">
-                <div class="card-corner top-left"></div>
-                <div class="card-corner bottom-right"></div>
-                <i class="fa-solid fa-skull card-icon"></i>
+                <i class="fa-solid fa-skull card-icon" style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
                 <h3>Survival Horror</h3>
-                <p>Jon-Bot is built specifically for the <strong>CHAIN</strong> Discord server—a fast-paced horror game on Roblox where you have to complete objectives and try to survive.</p>
+                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.3rem;">Jon-Bot is built specifically for the <strong>CHAIN</strong> Discord server—a fast-paced horror game on Roblox where you have to complete objectives and try to survive.</p>
               </div>
 
               <div class="hud-card feature-card">
-                <div class="card-corner top-left"></div>
-                <div class="card-corner bottom-right"></div>
-                <i class="fa-solid fa-building card-icon"></i>
+                <i class="fa-solid fa-building card-icon" style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
                 <h3>Suppression Studios</h3>
-                <p>Made by <strong>SUPPRESSION STUDIOS</strong>, a small team focused on making immersive Roblox horror games, host events, and cool gameplay stuff.</p>
+                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.3rem;">Made by <strong>SUPPRESSION STUDIOS</strong>, a small team focused on making immersive Roblox horror games, host events, and cool gameplay stuff.</p>
               </div>
             </div>
 
             <div class="hud-card" style="margin-top: 20px; padding: 20px;">
-              <div class="card-corner top-left"></div>
-              <div class="card-corner bottom-right"></div>
               <div class="card-header">
-                <i class="fa-solid fa-shield-halved"></i>
-                <h3>COMMUNITY INTEGRATION</h3>
+                <i class="fa-solid fa-shield-halved" style="color: var(--accent-red);"></i>
+                <h3 style="display: inline-block; margin-left: 8px;">COMMUNITY INTEGRATION</h3>
               </div>
               <p style="margin-top: 10px; color: var(--text-dim); font-size: 0.95rem; line-height: 1.6;">
                 Jon-Bot handles basic moderation, auto-warns/mutes using the <em>Damages System</em>, helps run events, and logs stuff for mods to keep the server clean.
@@ -438,8 +711,6 @@
 
         <aside class="tab-side-media">
           <div class="hud-card cat-card">
-            <div class="card-corner top-left"></div>
-            <div class="card-corner bottom-right"></div>
             <div class="cat-image-wrapper">
               <img src="b15c0783576fd904ef87e801ac896655.webp" alt="Suppression Studios Logo" class="cat-img" loading="lazy" />
             </div>
@@ -453,32 +724,42 @@
       <div class="tab-layout">
         <div class="tab-main-content">
           <section class="damages-section">
-            <div class="section-tag"><span>02</span> // PENALTY THRESHOLDS</div>
-            <p class="section-desc" style="margin-bottom: 1rem; color: var(--text-dim);">Jon-Bot uses a custom infraction points system called Damages. Reaching specific damage numbers triggers automatic punishments.</p>
-            
+            <div class="section-tag" style="color: var(--accent-red); font-family: monospace; margin-bottom: 0.5rem;"><span>02</span> // PENALTY THRESHOLDS</div>
+            <p class="section-desc" style="margin-bottom: 1.5rem; color: var(--text-dim);">Jon-Bot uses a custom infraction points system called Damages. Reaching specific damage numbers triggers automatic punishments.</p>
+
             <div class="hud-grid">
+              <!-- Auto Mute Card (3 Damages with Heartbeat Pulse) -->
               <div class="hud-card">
-                <div class="card-corner top-left"></div>
-                <div class="card-corner bottom-right"></div>
                 <div class="card-header">
-                  <i class="fa-solid fa-volume-xmark"></i>
-                  <h3>AUTO-MUTE LEVEL</h3>
+                  <i class="fa-solid fa-volume-xmark" style="color: var(--accent-red);"></i>
+                  <h3 style="display: inline-block; margin-left: 8px;">AUTO-MUTE LEVEL</h3>
                 </div>
-                <div class="counter-display" style="font-size: 2rem; font-weight: bold; margin: 0.5rem 0;">3 <span>DAMAGES</span></div>
-                <div class="meter-bar"><div class="fill warning-fill"></div></div>
-                <p>Hitting 3 damages automatically mutes the member across text and voice channels.</p>
+                <div class="counter-display" style="font-size: 2.2rem; font-weight: bold; margin-top: 0.5rem; color: #fff;">
+                  3 <span style="font-size: 0.85rem; color: var(--accent-red); font-family: monospace;">DAMAGES</span>
+                </div>
+
+                <div class="threshold-bar-container">
+                  <div class="threshold-bar-fill bar-3-damage" style="width: 25%;"></div>
+                </div>
+
+                <p style="color: var(--text-dim); font-size: 0.9rem;">Hitting 3 damages automatically mutes the member across text and voice channels.</p>
               </div>
 
+              <!-- Auto Ban Card (25 Damages with VHS Glitch / Static Overlay) -->
               <div class="hud-card">
-                <div class="card-corner top-left"></div>
-                <div class="card-corner bottom-right"></div>
                 <div class="card-header">
-                  <i class="fa-solid fa-user-slash"></i>
-                  <h3>AUTO-BAN LEVEL</h3>
+                  <i class="fa-solid fa-user-slash" style="color: var(--accent-red);"></i>
+                  <h3 style="display: inline-block; margin-left: 8px;">AUTO-BAN LEVEL</h3>
                 </div>
-                <div class="counter-display" style="font-size: 2rem; font-weight: bold; margin: 0.5rem 0;">25 <span>DAMAGES</span></div>
-                <div class="meter-bar"><div class="fill danger-fill"></div></div>
-                <p>Hitting 25 damages triggers an instant automatic ban and logs the incident.</p>
+                <div class="counter-display" style="font-size: 2.2rem; font-weight: bold; margin-top: 0.5rem; color: #fff;">
+                  25 <span style="font-size: 0.85rem; color: var(--accent-red); font-family: monospace;">DAMAGES</span>
+                </div>
+
+                <div class="threshold-bar-container">
+                  <div class="threshold-bar-fill bar-static-shake" style="width: 100%;"></div>
+                </div>
+
+                <p style="color: var(--text-dim); font-size: 0.9rem;">Hitting 25 damages triggers an instant automatic ban and logs the incident.</p>
               </div>
             </div>
           </section>
@@ -486,12 +767,10 @@
 
         <aside class="tab-side-media">
           <div class="hud-card cat-card">
-            <div class="card-corner top-left"></div>
-            <div class="card-corner bottom-right"></div>
             <div class="cat-image-wrapper">
               <img src="cd6e087d14f4cc83df5643b6f6955482.jpg" alt="Beer Cat" class="cat-img" loading="lazy" />
             </div>
-            <span class="cat-caption"><i class="fa-solid fa-beer-mug-empty"></i> SYSTEM_COMPANION_02</span>
+            <span class="cat-caption" style="color: var(--accent-red); font-family: monospace; font-size: 0.8rem; display: block; margin-top: 0.5rem;"><i class="fa-solid fa-beer-mug-empty"></i> SYSTEM_COMPANION_02</span>
           </div>
         </aside>
       </div>
@@ -502,33 +781,35 @@
       <div class="tab-layout">
         <div class="tab-main-content">
           <section class="commands-section">
-            <div class="section-tag"><span>03</span> // COMMANDS LIST</div>
-            
-            <div class="terminal-container" style="background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid var(--card-border); padding: 1rem;">
-              <div class="terminal-header" style="margin-bottom: 1rem;">
-                <span class="dot cyan"></span>
-                <span class="dot grey"></span>
-                <span class="dot white"></span>
-                <span class="terminal-title">available_commands.sys</span>
+            <div class="section-tag" style="color: var(--accent-red); font-family: monospace; margin-bottom: 0.5rem;"><span>03</span> // COMMANDS LIST</div>
+
+            <div class="terminal-container" style="background: rgba(10,10,10,0.85); border-radius: 8px; border: 1px solid var(--card-border); padding: 1rem; backdrop-filter: blur(10px);">
+              <div class="terminal-header" style="margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 30, 30, 0.2); padding-bottom: 0.5rem;">
+                <span class="terminal-title" style="color: var(--accent-red); font-family: monospace;">available_commands.sys</span>
               </div>
               <div class="command-grid">
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/addemote</code><span class="desc">Add custom emotes via URL or attachment.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/ban</code><span class="desc">Manually ban a user.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/checkdamage</code><span class="desc">Check current damages and user logs.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/clearwarnings</code><span class="desc">Clear warning history for a user.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/damage</code><span class="desc">Manually give damages to a user.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/embed</code><span class="desc">Create custom embed messages.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/giveaway</code><span class="desc">Start automated giveaways.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/mute</code><span class="desc">Mute someone in the server.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/removedamage</code><span class="desc">Remove damages from a user.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/say</code><span class="desc">Make the bot say a message.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/setlogchannel</code><span class="desc">Set where mod logs are sent.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/setprefix</code><span class="desc">Change the text command prefix.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/speak</code><span class="desc">Play text-to-speech audio in voice chat.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/unban</code><span class="desc">Unban a user.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/unmute</code><span class="desc">Unmute a user.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/warn</code><span class="desc">Issue a regular warning.</span></div>
-                <div class="cmd-row"><code class="cmd" style="color: var(--accent-cyan);">/warnings</code><span class="desc">View full warning log.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/addemote</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Add custom emotes via URL or attachment.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/ban</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Manually ban a user.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/checkdamage</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Check current damages and user logs.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/clearwarnings</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Clear warning history for a user.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/damage</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Manually give damages to a user.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/embed</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Create custom embed messages.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/giveaway</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Start automated giveaways.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/mute</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Mute someone in the server.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/purge</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Bulk delete a specified number of messages.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/purge-bot</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Delete recent messages sent by bots.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/purge-human</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Delete recent messages sent by human users.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/removedamage</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Remove damages from a user.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/say</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Make the bot say a message.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/serverinfo</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Display information and statistics about the server.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/setlogchannel</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Set where mod logs are sent.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/setprefix</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Change the text command prefix.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/speak</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Play text-to-speech audio in voice chat.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/unban</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Unban a user.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/unmute</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Unmute a user.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/userinfo</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Display detailed information about a user.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/warn</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">Issue a regular warning.</span></div>
+                <div class="cmd-row"><code class="cmd" style="color: var(--accent-red); font-weight: bold;">/warnings</code><span class="desc" style="color: var(--text-dim); font-size: 0.85rem;">View full warning log.</span></div>
               </div>
             </div>
           </section>
@@ -536,12 +817,10 @@
 
         <aside class="tab-side-media">
           <div class="hud-card cat-card">
-            <div class="card-corner top-left"></div>
-            <div class="card-corner bottom-right"></div>
             <div class="cat-image-wrapper">
               <img src="18b3141b565855b626069f16e064f51b.jpg" alt="Tabby Kitten" class="cat-img" loading="lazy" />
             </div>
-            <span class="cat-caption"><i class="fa-solid fa-terminal"></i> SYSTEM_COMPANION_03</span>
+            <span class="cat-caption" style="color: var(--accent-red); font-family: monospace; font-size: 0.8rem; display: block; margin-top: 0.5rem;"><i class="fa-solid fa-terminal"></i> SYSTEM_COMPANION_03</span>
           </div>
         </aside>
       </div>
@@ -552,21 +831,18 @@
       <div class="tab-layout">
         <div class="tab-main-content">
           <section class="support-section">
-            <div class="section-tag"><span>04</span> // COMMUNITY & SUPPORT</div>
-            
+            <div class="section-tag" style="color: var(--accent-red); font-family: monospace; margin-bottom: 0.5rem;"><span>04</span> // COMMUNITY & SUPPORT</div>
+
             <div class="hud-card support-card" style="text-align: center; padding: 2rem 1rem;">
-              <div class="card-corner top-left"></div>
-              <div class="card-corner bottom-right"></div>
-              
               <div class="support-header" style="margin-bottom: 1rem;">
-                <i class="fa-brands fa-discord support-icon" style="font-size: 3rem; color: #5865F2;"></i>
-                <h2 style="margin-top: 0.5rem;">JOIN THE SUPPORT SERVER</h2>
+                <i class="fa-brands fa-discord support-icon" style="font-size: 3rem; color: var(--accent-red);"></i>
+                <h2 style="margin-top: 0.5rem; color: #fff;">JOIN THE SUPPORT SERVER</h2>
               </div>
-              
+
               <p class="support-desc" style="max-width: 500px; margin: 0 auto 1.5rem auto; color: var(--text-dim);">Need assistance with Jon-Bot, want to report an issue, or suggest a new feature? Join our Discord server to connect with support.</p>
-              
+
               <div class="support-btn-wrapper">
-                <a href="https://discord.gg/Q3RKjJyMWU" target="_blank" rel="noopener noreferrer" class="join-btn" style="display: inline-block; padding: 0.75rem 1.5rem; background: #5865F2; color: #fff; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                <a href="https://discord.gg/Q3RKjJyMWU" target="_blank" rel="noopener noreferrer" class="join-btn" style="display: inline-block; padding: 0.75rem 1.5rem; background: var(--accent-red); color: #fff; border-radius: 6px; text-decoration: none; font-weight: bold; box-shadow: 0 0 20px rgba(255, 30, 30, 0.5);">
                   <i class="fa-brands fa-discord"></i> JOIN SERVER
                 </a>
               </div>
@@ -576,12 +852,10 @@
 
         <aside class="tab-side-media">
           <div class="hud-card cat-card">
-            <div class="card-corner top-left"></div>
-            <div class="card-corner bottom-right"></div>
             <div class="cat-image-wrapper">
               <img src="47557b6b22690742b5dad865205dc3de.jpg" alt="White Kitten" class="cat-img" loading="lazy" />
             </div>
-            <span class="cat-caption"><i class="fa-solid fa-headset"></i> SYSTEM_COMPANION_04</span>
+            <span class="cat-caption" style="color: var(--accent-red); font-family: monospace; font-size: 0.8rem; display: block; margin-top: 0.5rem;"><i class="fa-solid fa-headset"></i> SYSTEM_COMPANION_04</span>
           </div>
         </aside>
       </div>
@@ -590,7 +864,7 @@
   </main>
 
   <footer>
-    <p>JON-BOT // BUILT BY <span class="owner-tag"><i class="fa-brands fa-discord"></i> @del_lyy</span></p>
+    <p>JON-BOT // BUILT BY <span class="owner-tag" style="color: var(--accent-red);"><i class="fa-brands fa-discord"></i> @del_lyy</span></p>
   </footer>
 
   <script>
@@ -615,8 +889,155 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      // Scramble / Glitch Typing Intro Effect
+      const chars = "!@#$%^&*()_+-=[]{}|;:,.<>?/X#01";
+      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      function scrambleText(element, finalText, duration = 800) {
+        return new Promise((resolve) => {
+          let startTime = performance.now();
+          let length = finalText.length;
+
+          function update(now) {
+            let elapsed = now - startTime;
+            let progress = Math.min(elapsed / duration, 1);
+            let revealedChars = Math.floor(progress * length);
+
+            let currentText = finalText.substring(0, revealedChars);
+            for (let i = revealedChars; i < length; i++) {
+              if (finalText[i] === ' ') {
+                currentText += ' ';
+              } else {
+                currentText += chars[Math.floor(Math.random() * chars.length)];
+              }
+            }
+
+            element.textContent = currentText;
+
+            if (progress < 1) {
+              requestAnimationFrame(update);
+            } else {
+              element.textContent = finalText;
+              resolve();
+            }
+          }
+          requestAnimationFrame(update);
+        });
+      }
+
+      async function runIntroSequence() {
+        const l1 = document.getElementById('intro-line-1');
+        const l2 = document.getElementById('intro-line-2');
+        const l3 = document.getElementById('intro-line-3');
+        const introOverlay = document.getElementById('text-reveal-intro');
+
+        await scrambleText(l1, "INITIALIZING INTERFACE...", 600);
+        await scrambleText(l2, "JON-BOT v0.1", 800);
+        await scrambleText(l3, "[ SYSTEM SECURITY ACTIVE ]", 600);
+
+        await delay(2000);
+
+        introOverlay.classList.add('open');
+      }
+
+      runIntroSequence();
+
+      // Canvas Particle Background Engine
+      const canvas = document.getElementById('galaxy-canvas');
+      const ctx = canvas.getContext('2d');
+
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      let mouse = { x: width / 2, y: height / 2, targetX: width / 2, targetY: height / 2 };
+      window.addEventListener('mousemove', (e) => {
+        mouse.targetX = e.clientX;
+        mouse.targetY = e.clientY;
+      });
+
+      const particleCount = 550;
+      const particles = [];
+      const colors = ['#ff1e1e', '#990000', '#ffffff', '#d90429', '#660000'];
+
+      class GalaxyParticle {
+        constructor() {
+          this.reset(true);
+        }
+
+        reset(initial = false) {
+          this.arm = Math.floor(Math.random() * 3);
+          this.maxDist = Math.max(width, height) * 0.75;
+          this.distance = initial ? Math.random() * this.maxDist : Math.random() * 20 + 5;
+          this.angle = initial ? Math.random() * Math.PI * 2 : (this.arm * ((Math.PI * 2) / 3));
+          this.speed = (0.0008 + Math.random() * 0.0012) * (1 - this.distance / this.maxDist * 0.5);
+          this.size = Math.random() * 2.2 + 0.6;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.baseAlpha = Math.random() * 0.8 + 0.2;
+          this.twist = 0.0015;
+          this.pulse = Math.random() * Math.PI * 2;
+        }
+
+        update() {
+          this.angle += this.speed;
+          this.pulse += 0.03;
+          this.distance += 0.15;
+
+          if (this.distance > this.maxDist) {
+            this.reset();
+          }
+
+          const spiralAngle = this.angle + this.distance * this.twist;
+
+          const mouseOffsetX = (mouse.x - width / 2) * (this.distance / width) * 0.4;
+          const mouseOffsetY = (mouse.y - height / 2) * (this.distance / height) * 0.4;
+
+          this.x = width / 2 + Math.cos(spiralAngle) * this.distance + mouseOffsetX;
+          this.y = height / 2 + Math.sin(spiralAngle) * (this.distance * 0.55) + mouseOffsetY;
+        }
+
+        draw() {
+          const pulsedSize = this.size + Math.sin(this.pulse) * 0.4;
+
+          const fadeEdge = 1 - (this.distance / this.maxDist);
+          const currentAlpha = Math.max(0, this.baseAlpha * Math.pow(fadeEdge, 1.2));
+
+          ctx.save();
+          ctx.globalAlpha = currentAlpha;
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, Math.max(0.2, pulsedSize), 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new GalaxyParticle());
+      }
+
+      function animate() {
+        mouse.x += (mouse.targetX - mouse.x) * 0.05;
+        mouse.y += (mouse.targetY - mouse.y) * 0.05;
+
+        ctx.clearRect(0, 0, width, height);
+
+        particles.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+
+      // Custom Cursor Logic
       const isFinePointer = window.matchMedia('(pointer: fine)').matches;
-      
       if (isFinePointer) {
         const cursor = document.getElementById('custom-cursor');
 
@@ -653,35 +1074,16 @@
           } else {
             cursor.style.width = '8px';
             cursor.style.height = '8px';
-            cursor.style.backgroundColor = '#00f2fe';
+            cursor.style.backgroundColor = '#ff1e1e';
           }
         });
-      }
-
-      // Loader Animation
-      const statusText = document.getElementById('loader-status');
-      const loader = document.getElementById('cyber-loader');
-      
-      if (loader && statusText) {
-        const steps = ["LOADING DATA...", "CONNECTING TO DISCORD...", "READY"];
-        let i = 0;
-        
-        const interval = setInterval(() => {
-          if (i < steps.length) {
-            statusText.innerText = steps[i];
-            i++;
-          } else {
-            clearInterval(interval);
-            setTimeout(() => loader.classList.add('hide'), 300);
-          }
-        }, 250);
       }
 
       // Latency Simulation
       setInterval(() => {
         const pingElement = document.getElementById('ping-val');
         const signalFill = document.getElementById('signal-fill');
-        
+
         if (pingElement && signalFill) {
           const randomPing = Math.floor(Math.random() * 20) + 16;
           pingElement.innerText = randomPing + 'ms';
